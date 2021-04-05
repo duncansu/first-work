@@ -1,0 +1,19 @@
+import requests
+from bs4 import BeautigulSoup
+
+url="https://www.ptt.cc/bbs/HardwareSale/index.html"
+for i in range(50):
+ response=requests.get(url)
+ soup=BeautigulSoup(response.text,"html.parser")
+
+ sel=soup.select("div.title a")
+ for s in sel:
+   if"公告"not in s.text and "22吋" in s.text:
+     print(">"+s['href']+"|"+s.text,end='\n',file=open('ouput.txt','a',encoding='utf-8'))
+
+allBtn=soup.select("a.btn")
+for preBtn in allBtn:
+  if"上頁"in preBtn.text:
+    url="https://www.ptt.cc"+preBtn["href"]
+
+ 
